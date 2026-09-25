@@ -33,8 +33,8 @@ def db_path(tmp_path):
         ("FND-106", "Maple Canadian Small Cap", 31.40),
     ])
     conn.executemany("INSERT INTO accounts VALUES (?, ?, ?, ?)", [
-        ("ACC-1001", "Client One", "0012345678901", 1000.00),
-        ("ACC-1002", "Client Two", "0098765432109", 500.00),
+        ("ACC-1001", "Client One", "0012345678901", 100000), # cents = $1000.00
+        ("ACC-1002", "Client Two", "0098765432109", 50000), # cents = $500.00
     ])
     conn.executemany("INSERT INTO positions (account_id, fund_code, units) VALUES (?, ?, ?)", [
         ("ACC-1001", code, 100.0 + i) for i, code in enumerate(["FND-101", "FND-102", "FND-103", "FND-104", "FND-105", "FND-106"])
