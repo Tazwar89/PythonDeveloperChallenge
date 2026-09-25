@@ -1,10 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class TransferRequest(BaseModel):
     from_account: str
     to_account: str
-    amount: float
+    amount: float = Field(gt=0)
 
 
 class TransferResponse(BaseModel):
