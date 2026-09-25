@@ -18,11 +18,21 @@ def test_transfer_unknown_account(client):
     assert _transfer(client, 10, dst="ACC-9999").status_code == 404
 
 
+def test_transfer_same_account(client):
+    r = _transfer(client, 50, src="ACC-1001", dst="ACC-1001")
+    assert r.status_code == 422
+
+
 def test_transfer_precision(client):
     for _ in range(10):
         assert _transfer(client, 0.10).status_code == 201
     assert client.get("/accounts/ACC-1001").json()["balance"] == "999.00"
     assert client.get("/accounts/ACC-1002").json()["balance"] == "501.00"
+
+
+def test_transfer_non_positive_amount(client):
+    assert _transfer(client, 0).status_code == 422
+    assert _transfer(client, -10).status_code == 422
 
 
 def test_transfer_idempotency_key(client):
