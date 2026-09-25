@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     id TEXT PRIMARY KEY,
     client_name TEXT NOT NULL,
     account_number TEXT NOT NULL,
-    balance REAL NOT NULL
+    balance INTEGER NOT NULL
 );
 CREATE TABLE IF NOT EXISTS funds (
     code TEXT PRIMARY KEY,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS transfers (
     id TEXT PRIMARY KEY,
     from_account TEXT NOT NULL REFERENCES accounts(id),
     to_account TEXT NOT NULL REFERENCES accounts(id),
-    amount REAL NOT NULL,
+    amount INTEGER NOT NULL,
     created_at TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS transactions (
