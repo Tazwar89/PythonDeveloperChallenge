@@ -25,7 +25,7 @@ for i in range(5):
     for _ in range(80):
         ts += timedelta(minutes=random.choice([0, 0, 7, 45, 180]))  # many shared timestamps
         conn.execute("INSERT INTO transactions (account_id, type, amount, created_at) VALUES (?, ?, ?, ?)",
-                     (acc, random.choice(["deposit", "withdrawal"]), round(random.uniform(10, 2000), 2),
+                     (acc, random.choice(["deposit", "withdrawal"]), random.randint(1000, 200000),
                       ts.isoformat(timespec="seconds")))
 conn.commit()
 print(f"seeded {DB_PATH}")
