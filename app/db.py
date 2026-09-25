@@ -10,12 +10,12 @@ CREATE TABLE IF NOT EXISTS accounts (
     id TEXT PRIMARY KEY,
     client_name TEXT NOT NULL,
     account_number TEXT NOT NULL,
-    balance INTEGER NOT NULL
+    balance INTEGER NOT NULL -- cents
 );
 CREATE TABLE IF NOT EXISTS funds (
     code TEXT PRIMARY KEY,
     name TEXT NOT NULL,
-    nav REAL NOT NULL
+    nav REAL NOT NULL -- price per unit
 );
 CREATE TABLE IF NOT EXISTS positions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,14 +27,17 @@ CREATE TABLE IF NOT EXISTS transfers (
     id TEXT PRIMARY KEY,
     from_account TEXT NOT NULL REFERENCES accounts(id),
     to_account TEXT NOT NULL REFERENCES accounts(id),
-    amount INTEGER NOT NULL,
-    created_at TEXT NOT NULL
+    amount INTEGER NOT NULL, -- cents
+    created_at TEXT NOT NULL,
+    idempotency_key TEXT UNIQUE,
+    from_balance_after INTEGER NOT NULL, -- cents
+    to_balance_after INTEGER NOT NULL -- cents
 );
 CREATE TABLE IF NOT EXISTS transactions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     account_id TEXT NOT NULL REFERENCES accounts(id),
     type TEXT NOT NULL CHECK (type IN ('deposit', 'withdrawal', 'transfer_in', 'transfer_out')),
-    amount REAL NOT NULL,
+    amount INTEGER NOT NULL, -- cents
     created_at TEXT NOT NULL,
     transfer_id TEXT REFERENCES transfers(id)
 );
